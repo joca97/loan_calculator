@@ -9,7 +9,7 @@ services:
       - "POSTGRES_PASSWORD=pwd"
       - "POSTGRES_DB=loan_calculator"
     ports:
-      - "5433:5433"
+      - "5433:5432"
     volumes:
       - database-data:/var/lib/postgresql/data/
 

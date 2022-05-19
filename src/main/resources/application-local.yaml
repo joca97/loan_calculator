@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: 'jdbc:postgresql://localhost:5432/echelon?createDatabaseIfNotExist=true'
-    username: 'echelon'
-    password: 'echelon'
+    url: 'jdbc:postgresql://localhost:5433/loan_calculator?createDatabaseIfNotExist=true'
+    username: 'user'
+    password: 'pwd'

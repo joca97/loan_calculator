@@ -1,13 +1,12 @@
 package com.leanpay.loancalculator.domain;
 
+import com.leanpay.loancalculator.domain.base.BaseEntity;
+import com.leanpay.loancalculator.domain.enumeration.PaymentFrequency;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.Instant;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,29 +15,22 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "loan")
-public class Loan {
-
-    @Id
-    @GeneratedValue(generator = "pg-uuid")
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID id;
-
-    @CreationTimestamp
-    @Column(name = "created_on", updatable = false)
-    private Instant createdOn;
-
-    @UpdateTimestamp
-    @Column(name = "updated_on")
-    private Instant updatedOn;
+public class Loan extends BaseEntity {
 
     @Column(name = "amount")
     private Long amount;
 
+    @Column(name = "interest_rate")
+    private Integer interestRate;
+
     @Column(name = "number_of_months")
     private Integer numberOfMonths;
 
-    @Column(name = "annual_interest_percent")
-    private Integer annualInterestPercent;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_frequency")
+    private PaymentFrequency paymentFrequency;
+
+    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LoanRepayment> loanRepaymentList = new ArrayList<>();
 
 }
