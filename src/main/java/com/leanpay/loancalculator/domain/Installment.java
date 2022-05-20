@@ -4,6 +4,7 @@ import com.leanpay.loancalculator.domain.base.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -11,12 +12,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "loan_repayment")
-public class LoanRepayment extends BaseEntity {
+@Table(name = "installment")
+public class Installment extends BaseEntity {
 
-    @Column(name = "payment_amount")
-    private Float paymentAmount;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
+    @Column(name = "number_of_month")
+    private Integer numberOfMonth;
+
+    @JoinColumn(name = "loan_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Loan loan;
 

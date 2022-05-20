@@ -19,18 +19,12 @@
         <flyway.version>8.5.10</flyway.version>
         <postgresql.version>42.3.4</postgresql.version>
         <lombok.version>1.18.22</lombok.version>
+        <modelmapper.verion>3.1.0</modelmapper.verion>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
 
         <!-- LOMBOK -->
@@ -52,6 +46,12 @@
             <version>${data-jpa.version}</version>
         </dependency>
 
+        <!-- SPRING (HIBERNATE) VALIDATION -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
         <!-- POSTGRESQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -64,6 +64,13 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- MODEL MAPPER -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.verion}</version>
         </dependency>
 
         <!-- WEB -->
