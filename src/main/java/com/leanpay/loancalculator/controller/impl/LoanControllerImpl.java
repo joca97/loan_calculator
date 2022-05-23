@@ -45,7 +45,7 @@ public class LoanControllerImpl implements LoanController {
 
         InstallmentAmountsPerMonthsResponseDto installmentAmountsPerMonthsResponseDTO = InstallmentAmountsPerMonthsResponseDto.builder()
                 .installmentAmountsPerMonths(monthlyInstallmentAmountResponseDtos)
-                .totalPayments(loan.getTotalInterestAmount().add(installments.get(0).getLoan().getAmount()))
+                .totalPayments(loan.getTotalInterestAmount().add(loan.getAmount()))
                 .totalInterest(loan.getTotalInterestAmount()).build();
 
         return new ResponseEntity<>(installmentAmountsPerMonthsResponseDTO, HttpStatus.OK);

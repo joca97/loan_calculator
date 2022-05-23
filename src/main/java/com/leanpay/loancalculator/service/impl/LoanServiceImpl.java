@@ -22,9 +22,9 @@ public class LoanServiceImpl implements LoanService {
     public Installment getMonthlyInstallmentAmount(Loan loan) {
         BigDecimal monthlyPaymentAmount = calculateMonthlyPaymentAmount(loan);
         BigDecimal totalInterestAmount = calculateTotalInterestAmount(loan, monthlyPaymentAmount);
-
         Installment installment = Installment.builder()
                 .amount(monthlyPaymentAmount).build();
+
         loan.setNumberOfMonths(loan.getNumberOfMonths());
         loan.setTotalInterestAmount(totalInterestAmount);
         loan.addInstallment(installment);
@@ -47,7 +47,7 @@ public class LoanServiceImpl implements LoanService {
 
         BigDecimal totalInterestAmount = calculateTotalInterestAmount(loan, monthlyPaymentAmount);
         loan.setTotalInterestAmount(totalInterestAmount);
-        loan = loanRepository.save(loan);
+        loanRepository.save(loan);
 
         return loan.getInstallments();
     }
