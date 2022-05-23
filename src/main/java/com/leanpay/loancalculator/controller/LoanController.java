@@ -1,7 +1,7 @@
 package com.leanpay.loancalculator.controller;
 
 import com.leanpay.loancalculator.controller.dto.request.LoanRequestDto;
-import com.leanpay.loancalculator.controller.dto.response.InstallmentAmountsPerMonthsResponseDTO;
+import com.leanpay.loancalculator.controller.dto.response.InstallmentAmountsPerMonthsResponseDto;
 import com.leanpay.loancalculator.controller.dto.response.InstallmentResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,9 +38,9 @@ public interface LoanController {
                     "shows how each payment is applied to the principal balance and the interest owed.",
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstallmentAmountsPerMonthsResponseDTO.class)))
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstallmentAmountsPerMonthsResponseDto.class)))
             })
     @PostMapping("/amortization-schedule")
-    ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> getInstallmentAmountsPerMonths(@Valid @RequestBody LoanRequestDto loanRequestDTO);
+    ResponseEntity<InstallmentAmountsPerMonthsResponseDto> getInstallmentAmountsPerMonths(@Valid @RequestBody LoanRequestDto loanRequestDTO);
 
 }

@@ -32,7 +32,7 @@ public class LoanRequestDto {
             description = "The annual stated rate of the loan.",
             required = true,
             minimum = "0")
-    private Float interestRate;
+    private Double interestRate;
 
     @Min(value = 1, message = "value of the number of the months must be greater than 0")
     @NotNull(message = "number of months must not be null")

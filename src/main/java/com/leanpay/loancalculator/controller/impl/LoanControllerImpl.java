@@ -2,9 +2,9 @@ package com.leanpay.loancalculator.controller.impl;
 
 import com.leanpay.loancalculator.controller.LoanController;
 import com.leanpay.loancalculator.controller.dto.request.LoanRequestDto;
-import com.leanpay.loancalculator.controller.dto.response.InstallmentAmountsPerMonthsResponseDTO;
+import com.leanpay.loancalculator.controller.dto.response.InstallmentAmountsPerMonthsResponseDto;
 import com.leanpay.loancalculator.controller.dto.response.InstallmentResponseDto;
-import com.leanpay.loancalculator.controller.dto.response.MonthlyInstallmentAmountResponseDTO;
+import com.leanpay.loancalculator.controller.dto.response.MonthlyInstallmentAmountResponseDto;
 import com.leanpay.loancalculator.domain.Installment;
 import com.leanpay.loancalculator.domain.Loan;
 import com.leanpay.loancalculator.service.LoanService;
@@ -34,17 +34,17 @@ public class LoanControllerImpl implements LoanController {
     }
 
     @Override
-    public ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> getInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
+    public ResponseEntity<InstallmentAmountsPerMonthsResponseDto> getInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
         List<Installment> installments = loanService.getInstallmentAmountsPerMonths(loan);
         if (!installments.isEmpty()) {
             loan = installments.get(0).getLoan();
         }
-        List<MonthlyInstallmentAmountResponseDTO> monthlyInstallmentAmountResponseDTOS = installments.stream()
-                .map(installment -> modelMapper.map(installment, MonthlyInstallmentAmountResponseDTO.class)).toList();
+        List<MonthlyInstallmentAmountResponseDto> monthlyInstallmentAmountResponseDtos = installments.stream()
+                .map(installment -> modelMapper.map(installment, MonthlyInstallmentAmountResponseDto.class)).toList();
 
-        InstallmentAmountsPerMonthsResponseDTO installmentAmountsPerMonthsResponseDTO = InstallmentAmountsPerMonthsResponseDTO.builder()
-                .installmentAmountsPerMonths(monthlyInstallmentAmountResponseDTOS)
+        InstallmentAmountsPerMonthsResponseDto installmentAmountsPerMonthsResponseDTO = InstallmentAmountsPerMonthsResponseDto.builder()
+                .installmentAmountsPerMonths(monthlyInstallmentAmountResponseDtos)
                 .totalPayments(loan.getTotalInterestAmount().add(installments.get(0).getLoan().getAmount()))
                 .totalInterest(loan.getTotalInterestAmount()).build();
 

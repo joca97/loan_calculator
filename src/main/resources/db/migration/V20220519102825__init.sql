@@ -4,7 +4,7 @@ create table if not exists loan
     created_on            timestamp,
     updated_on            timestamp,
     amount                decimal,
-    interest_rate         float,
+    interest_rate         double precision,
     number_of_months      integer,
     payment_frequency     text,
     total_interest_amount decimal

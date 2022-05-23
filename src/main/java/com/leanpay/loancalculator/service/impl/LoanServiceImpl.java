@@ -24,7 +24,7 @@ public class LoanServiceImpl implements LoanService {
         BigDecimal totalInterestAmount = calculateTotalInterestAmount(loan, monthlyPaymentAmount);
 
         Installment installment = Installment.builder()
-                .amount(monthlyPaymentAmount.setScale(2, RoundingMode.HALF_EVEN)).build();
+                .amount(monthlyPaymentAmount).build();
         loan.setNumberOfMonths(loan.getNumberOfMonths());
         loan.setTotalInterestAmount(totalInterestAmount);
         loan.addInstallment(installment);
@@ -40,7 +40,7 @@ public class LoanServiceImpl implements LoanService {
 
         for (int i = 1; i <= loan.getNumberOfMonths(); i++) {
             Installment installment = Installment.builder()
-                    .amount(monthlyPaymentAmount.setScale(2, RoundingMode.HALF_EVEN))
+                    .amount(monthlyPaymentAmount)
                     .numberOfMonth(i).build();
             loan.addInstallment(installment);
         }
@@ -55,13 +55,12 @@ public class LoanServiceImpl implements LoanService {
     private BigDecimal calculateMonthlyPaymentAmount(Loan loan) {
         BigDecimal interestRatePerMonth = BigDecimal.valueOf(loan.getInterestRate() / 100 / 12);
 
-        return (loan.getAmount().multiply(interestRatePerMonth).multiply(BigDecimal.ONE.add(interestRatePerMonth).pow(loan.getNumberOfMonths())))
-                .divide(BigDecimal.ONE.add(interestRatePerMonth).pow(loan.getNumberOfMonths()).subtract(BigDecimal.ONE), RoundingMode.HALF_EVEN);
+        return (loan.getAmount().multiply(interestRatePerMonth).multiply((BigDecimal.ONE.add(interestRatePerMonth)).pow(loan.getNumberOfMonths())))
+                .divide(((BigDecimal.ONE.add(interestRatePerMonth)).pow(loan.getNumberOfMonths())).subtract(BigDecimal.ONE), RoundingMode.HALF_EVEN);
     }
 
     private BigDecimal calculateTotalInterestAmount(Loan loan, BigDecimal monthlyPaymentAmount) {
         return monthlyPaymentAmount.multiply(BigDecimal.valueOf(loan.getNumberOfMonths()))
-                .subtract(loan.getAmount())
-                .setScale(2, RoundingMode.HALF_EVEN);
+                .subtract(loan.getAmount());
     }
 }

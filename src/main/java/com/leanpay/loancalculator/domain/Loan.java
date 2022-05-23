@@ -26,7 +26,7 @@ public class Loan extends BaseEntity {
     private BigDecimal amount;
 
     @Column(name = "interest_rate")
-    private Float interestRate;
+    private Double interestRate;
 
     @Column(name = "number_of_months")
     private Integer numberOfMonths;
@@ -39,7 +39,9 @@ public class Loan extends BaseEntity {
     private PaymentFrequency paymentFrequency = PaymentFrequency.MONTHLY;
 
     @OneToMany(mappedBy = "loan",
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Installment> installments = new ArrayList<>();
 
     public void addInstallment(Installment installment) {

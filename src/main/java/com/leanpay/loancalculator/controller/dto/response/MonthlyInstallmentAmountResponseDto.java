@@ -1,5 +1,7 @@
 package com.leanpay.loancalculator.controller.dto.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.leanpay.loancalculator.util.BigDecimalSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +15,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "Monthly installment amount response")
-public class MonthlyInstallmentAmountResponseDTO {
+public class MonthlyInstallmentAmountResponseDto {
 
+    @JsonSerialize(using = BigDecimalSerialize.class)
     @Schema(name = "amount",
             description = "The size or value of the installment.",
             required = true)
