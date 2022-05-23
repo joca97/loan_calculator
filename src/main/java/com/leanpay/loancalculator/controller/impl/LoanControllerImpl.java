@@ -37,13 +37,16 @@ public class LoanControllerImpl implements LoanController {
     public ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> calculateInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
         List<Installment> installments = loanService.calculateInstallmentAmountsPerMonths(loan);
+        if (!installments.isEmpty()) {
+            loan = installments.get(0).getLoan();
+        }
         List<MonthlyInstallmentAmountResponseDTO> monthlyInstallmentAmountResponseDTOS = installments.stream()
                 .map(installment -> modelMapper.map(installment, MonthlyInstallmentAmountResponseDTO.class)).toList();
 
         InstallmentAmountsPerMonthsResponseDTO installmentAmountsPerMonthsResponseDTO = InstallmentAmountsPerMonthsResponseDTO.builder()
                 .installmentAmountsPerMonths(monthlyInstallmentAmountResponseDTOS)
-                .totalPayments(installments.get(0).getLoan().getTotalInterestAmount().add(installments.get(0).getLoan().getAmount()))
-                .totalInterest(installments.get(0).getLoan().getTotalInterestAmount()).build();
+                .totalPayments(loan.getTotalInterestAmount().add(installments.get(0).getLoan().getAmount()))
+                .totalInterest(loan.getTotalInterestAmount()).build();
 
         return new ResponseEntity<>(installmentAmountsPerMonthsResponseDTO, HttpStatus.OK);
     }
