@@ -38,9 +38,13 @@ public class Loan extends BaseEntity {
     @Column(name = "payment_frequency")
     private PaymentFrequency paymentFrequency = PaymentFrequency.MONTHLY;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<Installment> installmentList = new ArrayList<>();
+    @OneToMany(mappedBy = "loan",
+            fetch = FetchType.LAZY)
+    private List<Installment> installments = new ArrayList<>();
+
+    public void addInstallment(Installment installment) {
+        installments.add(installment);
+        installment.setLoan(this);
+    }
 
 }

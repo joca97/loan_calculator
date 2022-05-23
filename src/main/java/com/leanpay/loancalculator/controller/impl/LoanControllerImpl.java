@@ -25,18 +25,18 @@ public class LoanControllerImpl implements LoanController {
 
 
     @Override
-    public ResponseEntity<InstallmentResponseDto> calculateMonthlyInstallmentAmount(LoanRequestDto loanRequestDTO) {
+    public ResponseEntity<InstallmentResponseDto> getMonthlyInstallmentAmount(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
-        Installment installment = loanService.calculateMonthlyInstallmentAmount(loan);
+        Installment installment = loanService.getMonthlyInstallmentAmount(loan);
         InstallmentResponseDto installmentResponseDto = InstallmentMapper.map(installment);
 
         return new ResponseEntity<>(installmentResponseDto, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> calculateInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
+    public ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> getInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
-        List<Installment> installments = loanService.calculateInstallmentAmountsPerMonths(loan);
+        List<Installment> installments = loanService.getInstallmentAmountsPerMonths(loan);
         if (!installments.isEmpty()) {
             loan = installments.get(0).getLoan();
         }

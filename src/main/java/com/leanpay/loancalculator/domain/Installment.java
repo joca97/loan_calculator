@@ -25,8 +25,7 @@ public class Installment extends BaseEntity {
     @Column(name = "number_of_month")
     private Integer numberOfMonth;
 
-    @ManyToOne
-    @JoinColumn(name = "loan_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Loan loan;
 
 }

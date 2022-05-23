@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface LoanService {
 
-    Installment calculateMonthlyInstallmentAmount(Loan loan);
+    Installment getMonthlyInstallmentAmount(Loan loan);
 
-    List<Installment> calculateInstallmentAmountsPerMonths(Loan loan);
+    List<Installment> getInstallmentAmountsPerMonths(Loan loan);
 
 }
