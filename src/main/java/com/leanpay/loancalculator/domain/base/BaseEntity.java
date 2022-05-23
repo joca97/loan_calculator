@@ -1,7 +1,9 @@
 package com.leanpay.loancalculator.domain.base;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +17,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@SuperBuilder
 @MappedSuperclass
+@NoArgsConstructor
 public class BaseEntity {
 
     @Id
@@ -25,7 +29,7 @@ public class BaseEntity {
     private UUID id;
 
     @CreationTimestamp
-    @Column(name = "created_on", updatable = false)
+    @Column(name = "created_on", updatable = false, nullable = false)
     private Instant createdOn;
 
     @UpdateTimestamp

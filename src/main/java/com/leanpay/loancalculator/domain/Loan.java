@@ -2,19 +2,23 @@ package com.leanpay.loancalculator.domain;
 
 import com.leanpay.loancalculator.domain.base.BaseEntity;
 import com.leanpay.loancalculator.domain.enumeration.PaymentFrequency;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
 @Table(name = "loan")
 public class Loan extends BaseEntity {
 
@@ -22,7 +26,7 @@ public class Loan extends BaseEntity {
     private BigDecimal amount;
 
     @Column(name = "interest_rate")
-    private Integer interestRate;
+    private Float interestRate;
 
     @Column(name = "number_of_months")
     private Integer numberOfMonths;

@@ -7,7 +7,7 @@ public class InstallmentMapper {
 
     public static InstallmentResponseDto map(Installment installment) {
         return InstallmentResponseDto.builder()
-                .amount(installment.getAmount())
+                .monthlyInstallmentAmount(installment.getAmount())
                 .totalInterestAmount(installment.getLoan().getTotalInterestAmount()).build();
     }
 

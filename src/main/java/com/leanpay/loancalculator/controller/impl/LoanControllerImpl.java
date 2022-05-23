@@ -1,7 +1,7 @@
 package com.leanpay.loancalculator.controller.impl;
 
 import com.leanpay.loancalculator.controller.LoanController;
-import com.leanpay.loancalculator.controller.dto.request.LoanRequestDTO;
+import com.leanpay.loancalculator.controller.dto.request.LoanRequestDto;
 import com.leanpay.loancalculator.controller.dto.response.InstallmentAmountsPerMonthsResponseDTO;
 import com.leanpay.loancalculator.controller.dto.response.InstallmentResponseDto;
 import com.leanpay.loancalculator.controller.dto.response.MonthlyInstallmentAmountResponseDTO;
@@ -25,7 +25,7 @@ public class LoanControllerImpl implements LoanController {
 
 
     @Override
-    public ResponseEntity<InstallmentResponseDto> calculateMonthlyInstallmentAmount(LoanRequestDTO loanRequestDTO) {
+    public ResponseEntity<InstallmentResponseDto> calculateMonthlyInstallmentAmount(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
         Installment installment = loanService.calculateMonthlyInstallmentAmount(loan);
         InstallmentResponseDto installmentResponseDto = InstallmentMapper.map(installment);
@@ -34,7 +34,7 @@ public class LoanControllerImpl implements LoanController {
     }
 
     @Override
-    public ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> calculateInstallmentAmountsPerMonths(LoanRequestDTO loanRequestDTO) {
+    public ResponseEntity<InstallmentAmountsPerMonthsResponseDTO> calculateInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
         List<Installment> installments = loanService.calculateInstallmentAmountsPerMonths(loan);
         List<MonthlyInstallmentAmountResponseDTO> monthlyInstallmentAmountResponseDTOS = installments.stream()

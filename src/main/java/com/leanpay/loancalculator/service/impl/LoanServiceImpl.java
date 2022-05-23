@@ -31,8 +31,7 @@ public class LoanServiceImpl implements LoanService {
         loan = loanRepository.save(loan);
 
         Installment installment = Installment.builder()
-                .amount(monthlyPaymentAmount.setScale(2, RoundingMode.FLOOR))
-                .numberOfMonth(1)
+                .amount(monthlyPaymentAmount.setScale(2, RoundingMode.HALF_EVEN))
                 .loan(loan).build();
         installment = installmentRepository.save(installment);
 
@@ -47,7 +46,7 @@ public class LoanServiceImpl implements LoanService {
 
         for (int i = 1; i <= loan.getNumberOfMonths(); i++) {
             Installment installment = Installment.builder()
-                    .amount(monthlyPaymentAmount.setScale(2, RoundingMode.FLOOR))
+                    .amount(monthlyPaymentAmount.setScale(2, RoundingMode.HALF_EVEN))
                     .numberOfMonth(i)
                     .loan(loan).build();
             installments.add(installment);
@@ -55,22 +54,22 @@ public class LoanServiceImpl implements LoanService {
 
         BigDecimal totalInterestAmount = calculateTotalInterestAmount(loan, monthlyPaymentAmount);
         loan.setTotalInterestAmount(totalInterestAmount);
-        loan = loanRepository.save(loan);
+        loanRepository.save(loan);
         installments = installmentRepository.saveAll(installments);
 
         return installments;
     }
 
     private BigDecimal calculateMonthlyPaymentAmount(Loan loan) {
-        BigDecimal interestRatePerMonth = BigDecimal.valueOf(loan.getInterestRate() / 100d / 12d);
+        BigDecimal interestRatePerMonth = BigDecimal.valueOf(loan.getInterestRate() / 100 / 12);
 
         return (loan.getAmount().multiply(interestRatePerMonth).multiply(BigDecimal.ONE.add(interestRatePerMonth).pow(loan.getNumberOfMonths())))
-                .divide(BigDecimal.ONE.add(interestRatePerMonth).pow(loan.getNumberOfMonths()).subtract(BigDecimal.ONE), RoundingMode.FLOOR);
+                .divide(BigDecimal.ONE.add(interestRatePerMonth).pow(loan.getNumberOfMonths()).subtract(BigDecimal.ONE), RoundingMode.HALF_EVEN);
     }
 
     private BigDecimal calculateTotalInterestAmount(Loan loan, BigDecimal monthlyPaymentAmount) {
         return monthlyPaymentAmount.multiply(BigDecimal.valueOf(loan.getNumberOfMonths()))
                 .subtract(loan.getAmount())
-                .setScale(2, RoundingMode.FLOOR);
+                .setScale(2, RoundingMode.HALF_EVEN);
     }
 }
