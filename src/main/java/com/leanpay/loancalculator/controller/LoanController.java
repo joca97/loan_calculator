@@ -30,7 +30,7 @@ public interface LoanController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstallmentResponseDto.class)))
             })
     @PostMapping("/simple")
-    ResponseEntity<InstallmentResponseDto> getMonthlyInstallmentAmount(@Valid @RequestBody LoanRequestDto loanRequestDTO);
+    ResponseEntity<InstallmentResponseDto> getMonthlyInstallmentAmount(@RequestBody @Valid LoanRequestDto loanRequestDTO);
 
     @Operation(summary = "Amortization Schedule Calculator",
             description = "This amortization schedule calculator allows you to create a payment table" +
@@ -41,6 +41,6 @@ public interface LoanController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstallmentAmountsPerMonthsResponseDto.class)))
             })
     @PostMapping("/amortization-schedule")
-    ResponseEntity<InstallmentAmountsPerMonthsResponseDto> getInstallmentAmountsPerMonths(@Valid @RequestBody LoanRequestDto loanRequestDTO);
+    ResponseEntity<InstallmentAmountsPerMonthsResponseDto> getInstallmentAmountsPerMonths(@RequestBody @Valid LoanRequestDto loanRequestDTO);
 
 }
