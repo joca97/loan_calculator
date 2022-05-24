@@ -37,9 +37,8 @@ public class LoanControllerImpl implements LoanController {
     public ResponseEntity<InstallmentAmountsPerMonthsResponseDto> getInstallmentAmountsPerMonths(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
         List<Installment> installments = loanService.getInstallmentAmountsPerMonths(loan);
-        if (!installments.isEmpty()) {
-            loan = installments.get(0).getLoan();
-        }
+        loan = installments.get(0).getLoan();
+
         List<MonthlyInstallmentAmountResponseDto> monthlyInstallmentAmountResponseDtos = installments.stream()
                 .map(installment -> modelMapper.map(installment, MonthlyInstallmentAmountResponseDto.class)).toList();
 

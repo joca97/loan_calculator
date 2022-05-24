@@ -2,8 +2,7 @@ package com.leanpay.loancalculator.exception;
 
 public enum ErrorCode {
     UNEXPECTED_ERROR("exception.unexpectedError"),
-    INVALID_REQUEST_PARAMETERS("exception.invalidRequestParameters"),
-    BAD_REQUEST("exception.badRequest");
+    INVALID_REQUEST_PARAMETERS("exception.invalidRequestParameters");
 
     private final String errorCode;
 

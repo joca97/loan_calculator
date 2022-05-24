@@ -2,16 +2,24 @@ package com.leanpay.loancalculator.it;
 
 import com.leanpay.loancalculator.AbstractIntegrationTest;
 import com.leanpay.loancalculator.controller.dto.request.LoanRequestDto;
+import com.leanpay.loancalculator.exception.ErrorCode;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class LoanIntegrationTest extends AbstractIntegrationTest {
     private static final String basePath = "/loans/calculator";
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Test
     void getMonthlyInstallmentAmount() throws Exception {
@@ -26,6 +34,26 @@ class LoanIntegrationTest extends AbstractIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void getMonthlyInstallmentAmount_loanAmountHasZeroValue_shouldThrowInvalidRequestParametersException() throws Exception {
+        LoanRequestDto loanRequestDto = LoanRequestDto.builder()
+                .amount(BigDecimal.ZERO)
+                .numberOfMonths(0)
+                .interestRate(0d).build();
+        String content = objectMapper.writeValueAsString(loanRequestDto);
+
+        mockMvc.perform(post(basePath + "/simple")
+                        .locale(Locale.US)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(content))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value(ErrorCode.INVALID_REQUEST_PARAMETERS.name()))
+                .andExpect(jsonPath("$.error_description")
+                        .value(messageSource.getMessage(ErrorCode.INVALID_REQUEST_PARAMETERS.getErrorCode(), null, Locale.US)))
+                .andExpect(jsonPath("$.messages").isArray());
     }
 
     @Test
