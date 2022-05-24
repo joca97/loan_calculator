@@ -2,15 +2,21 @@ package com.leanpay.loancalculator.it;
 
 import com.leanpay.loancalculator.AbstractIntegrationTest;
 import com.leanpay.loancalculator.controller.dto.request.LoanRequestDto;
+import com.leanpay.loancalculator.domain.Installment;
+import com.leanpay.loancalculator.domain.Loan;
 import com.leanpay.loancalculator.exception.ErrorCode;
+import com.leanpay.loancalculator.repository.InstallmentRepository;
+import com.leanpay.loancalculator.repository.LoanRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +26,12 @@ class LoanIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private LoanRepository loanRepository;
+
+    @Autowired
+    private InstallmentRepository installmentRepository;
 
     @Test
     void getMonthlyInstallmentAmount() throws Exception {
@@ -34,6 +46,12 @@ class LoanIntegrationTest extends AbstractIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk());
+
+        List<Loan> loans = loanRepository.findAll();
+        List<Installment> installments = installmentRepository.findAll();
+
+        assertEquals(1, loans.size());
+        assertEquals(1, installments.size());
     }
 
     @Test
@@ -69,6 +87,12 @@ class LoanIntegrationTest extends AbstractIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk());
+
+        List<Loan> loans = loanRepository.findAll();
+        List<Installment> installments = installmentRepository.findAll();
+
+        assertEquals(1, loans.size());
+        assertEquals(loanRequestDto.getNumberOfMonths(), installments.size());
     }
 
 }
