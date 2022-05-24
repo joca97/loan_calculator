@@ -9,3 +9,6 @@ spring:
   flyway:
     out-of-order: true
     schemas: 'loan_calculator'
+  web:
+    locale: en_US
+    locale-resolver: fixed

@@ -20,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Tag(name = "Loan Controller",
         description = "Calculate monthly payment on a loan from a term" +
                 " in years or months along with interest paid on the loan.")
-@RequestMapping(value = "loans/calculator", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "loans", produces = APPLICATION_JSON_VALUE)
 public interface LoanController {
 
     @Operation(summary = "Simple Loan Calculator",
@@ -29,7 +29,7 @@ public interface LoanController {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstallmentResponseDto.class)))
             })
-    @PostMapping("/simple")
+    @PostMapping("/calculator/simple")
     ResponseEntity<InstallmentResponseDto> getMonthlyInstallmentAmount(@RequestBody @Valid LoanRequestDto loanRequestDTO);
 
     @Operation(summary = "Amortization Schedule Calculator",
@@ -40,7 +40,7 @@ public interface LoanController {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = InstallmentAmountsPerMonthsResponseDto.class)))
             })
-    @PostMapping("/amortization-schedule")
+    @PostMapping("/calculator/amortization-schedule")
     ResponseEntity<InstallmentAmountsPerMonthsResponseDto> getInstallmentAmountsPerMonths(@RequestBody @Valid LoanRequestDto loanRequestDTO);
 
 }

@@ -8,7 +8,6 @@ import com.leanpay.loancalculator.controller.dto.response.MonthlyInstallmentAmou
 import com.leanpay.loancalculator.domain.Installment;
 import com.leanpay.loancalculator.domain.Loan;
 import com.leanpay.loancalculator.service.LoanService;
-import com.leanpay.loancalculator.util.InstallmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,9 @@ public class LoanControllerImpl implements LoanController {
     public ResponseEntity<InstallmentResponseDto> getMonthlyInstallmentAmount(LoanRequestDto loanRequestDTO) {
         Loan loan = modelMapper.map(loanRequestDTO, Loan.class);
         Installment installment = loanService.getMonthlyInstallmentAmount(loan);
-        InstallmentResponseDto installmentResponseDto = InstallmentMapper.map(installment);
+        InstallmentResponseDto installmentResponseDto = InstallmentResponseDto.builder()
+                .monthlyInstallmentAmount(installment.getAmount())
+                .totalInterestAmount(installment.getLoan().getTotalInterestAmount()).build();
 
         return new ResponseEntity<>(installmentResponseDto, HttpStatus.OK);
     }
