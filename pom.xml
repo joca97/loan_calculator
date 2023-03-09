@@ -17,7 +17,7 @@
         <java.version>17</java.version>
         <data-jpa.version>2.6.7</data-jpa.version>
         <flyway.version>8.5.10</flyway.version>
-        <postgresql.version>42.3.7</postgresql.version>
+        <postgresql.version>42.3.8</postgresql.version>
         <lombok.version>1.18.22</lombok.version>
         <modelmapper.verion>3.1.0</modelmapper.verion>
         <springdoc.version>1.6.8</springdoc.version>
